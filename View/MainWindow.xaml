@@ -1,0 +1,35 @@
+﻿<Window x:Class="myServices.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:myServices"
+        mc:Ignorable="d"
+        Title="Services" Height="450" Width="650">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+        <StackPanel>
+            <DataGrid AutoGenerateColumns="False" 
+                      ItemsSource="{Binding GridItems}" 
+                      GridLinesVisibility="None" 
+                      HeadersVisibility="Column">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Display name" Width="200" Binding="{Binding DisplayName, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Status" Width="100" Binding="{Binding Status, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Account" Width="100" Binding="{Binding Account, Mode=OneWay}"/>
+                </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Start" Command="{Binding StartCommand}"
+                                  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                    AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
+                        <MenuItem Header="Stop" Command="{Binding StopCommand}" 
+                                  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                    AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
