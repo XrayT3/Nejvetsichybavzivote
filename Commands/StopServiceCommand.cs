@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 
 namespace myServices.Commands
@@ -21,13 +20,13 @@ namespace myServices.Commands
         {
             DataItemViewModel item = parameter as DataItemViewModel;
 
-            if(item != null)
+            if (item != null && item.Status.Equals("Running"))
             {
                 await _servicesModel.StopService(item._service);
             }
             else
             {
-                MessageBox.Show("Error: Object from GUI is null");
+                MessageBox.Show("Error: Object from GUI is null or running");
             }
             
         }

@@ -22,13 +22,13 @@ namespace myServices.Commands
         {
             DataItemViewModel item = parameter as DataItemViewModel;
 
-            if (item != null)
+            if (item != null && item.Status.Equals("Stopped"))
             {
-                await _servicesModel.StopService(item._service);
+                await _servicesModel.StartService(item._service);
             }
             else
             {
-                MessageBox.Show("Error: Object from GUI is null");
+                MessageBox.Show("Error: Object from GUI is null or stopped");
             }
         }
     }

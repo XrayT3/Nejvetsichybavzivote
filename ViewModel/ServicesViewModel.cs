@@ -21,9 +21,9 @@ namespace myServices
         public ServicesViewModel(ServicesModel model)
         {
             _model = model;
-            
             _gridItems = new ObservableCollection<DataItemViewModel>();
-            Initialization(_model.ServiceItems);
+
+            Initialization(_model.Services);
 
             StopCommand = new StopServiceCommand(model);
             StartCommand = new StartServiceCommand(model);
@@ -31,7 +31,7 @@ namespace myServices
             _model.ItemChange += OnItemChange;
         }
 
-        private void Initialization(ObservableCollection<ServiceController> services)
+        private void Initialization(ServiceController[] services)
         {   
             foreach(ServiceController servic in services)
             {
@@ -39,15 +39,14 @@ namespace myServices
             }
         }
 
+        /// <summary>
+        /// Update status of process
+        /// </summary>
         private void OnItemChange(ServiceController newService)
         {
             var oldServic = _gridItems.FirstOrDefault(i => i.DisplayName.Equals(newService.DisplayName));
-            if(oldServic != null)
-            {
-                _gridItems.Add(new DataItemViewModel(newService));
-                _gridItems.Remove(oldServic);
-            }
+            int index = _gridItems.IndexOf(oldServic);
+            _gridItems[index] = new DataItemViewModel(newService);
         }
-
     }
 }

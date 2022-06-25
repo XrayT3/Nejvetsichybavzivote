@@ -4,32 +4,50 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:myServices"
+        xmlns:converters="clr-namespace:myServices.Converters;assembly="
         mc:Ignorable="d"
         Title="Services" Height="450" Width="650">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
-        <StackPanel>
-            <DataGrid AutoGenerateColumns="False" 
-                      ItemsSource="{Binding GridItems}" 
-                      GridLinesVisibility="None" 
-                      HeadersVisibility="Column">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="Display name" Width="200" Binding="{Binding DisplayName, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="Status" Width="100" Binding="{Binding Status, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="Account" Width="100" Binding="{Binding Account, Mode=OneWay}"/>
-                </DataGrid.Columns>
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Start" Command="{Binding StartCommand}"
-                                  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+    <Window.Resources>
+        <converters:StatusConverter x:Key="StatusConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <DataGrid AutoGenerateColumns="False"
+                  ItemsSource="{Binding GridItems}" 
+                  GridLinesVisibility="None" 
+                  HeadersVisibility="Column"
+                  ScrollViewer.CanContentScroll="True" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Display name" Width="200" Binding="{Binding DisplayName, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Status" Width="100" Binding="{Binding Status, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Account" Width="100" Binding="{Binding Account, Mode=OneWay}"/>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Start" 
+                              Command="{Binding StartCommand}" 
+                              IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                    AncestorType={x:Type ContextMenu}}, 
+                                    Path=PlacementTarget.SelectedItem, 
+                                    Converter={StaticResource StatusConverter}, 
+                                    ConverterParameter=Start}" 
+                              CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
                                     AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
-                        <MenuItem Header="Stop" Command="{Binding StopCommand}" 
-                                  CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                    <MenuItem Header="Stop"
+                              IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                    AncestorType={x:Type ContextMenu}}, 
+                                    Path=PlacementTarget.SelectedItem, 
+                                    Converter={StaticResource StatusConverter}, 
+                                    ConverterParameter=Stop}" 
+                              Command="{Binding StopCommand}"
+                              CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
                                     AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}"/>
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-            </DataGrid>
-        </StackPanel>
-    </ScrollViewer>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </Grid>
 </Window>

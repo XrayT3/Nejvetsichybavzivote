@@ -13,7 +13,6 @@ namespace myServices
         public string DisplayName => _service.DisplayName;
         public string Status => _service.Status.ToString();
         public string Account => _serviceAccountName;
-        
 
         public DataItemViewModel(ServiceController service)
         {
